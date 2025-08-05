@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Constraints as Terminations (CaT) enforces constraints through stochastic terminations during policy learning.">
+  <meta name="keywords" content="CaT, Reinforcement Learning, Legged Locomotion">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Constrained Reinforcement Learning for Unstable Point-Feet Bipedal Locomotion Applied to the Bolt Robot</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/laasicon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Constrained Reinforcement Learning for Unstable Point-Feet Bipedal Locomotion Applied to the Bolt Robot</h1>
+          <div class="is-size-5 publication-authors">
+            <!-- TODO UPDATE LINKS -->
+            <span class="author-block">
+              <a href="">Constant Roux</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://elliotchanesane31.github.io/">Elliot Chane-Sane</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://ludovicdematteis.github.io/">Ludovic de Matteïs</a><sup>1</sup>,
+            </span> </br>
+            <span class="author-block">
+              <a href="">Thomas Flayols</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="">Jérôme Manhes</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://homepages.laas.fr/ostasse/hugo/">Olivier Stasse</a><sup>1,2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="">Philippe Souères</a><sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup> LAAS-CNRS, Université de Toulouse, France,</span>
+            <span class="author-block"><sup>2</sup> Artificial and Natural Intelligence Toulouse Institute, France.</span>
+          </div>
+
+           <!-- TODO UPDATE LINKS -->
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2508.02194"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2508.02194"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video (coming soon)</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/Gepetto/BoltLocomotion"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Logs Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-clipboard-list"></i>
+                  </span>
+                  <span>Logs (coming soon)</span>
+                </a>
+              </span>
+            </div>
+          </div>
+          <!-- TODO UPDATE CONF IF ACCEPTED -->
+          This paper has been accepted for the 2025 IEEE-RAS International Conference on Humanoid Robots (ICHR 2025).
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline width="100%">
+        <source src="./static/videos/main_video.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        Our framework enables robust and agile locomotion on the bipedal, point-foot, arm-less robot Bolt demonstrating effective control despite its inherently unstable morphology.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          Bipedal locomotion is a key challenge in robotics, particularly for robots like Bolt, which have a point-foot design. 
+          This study explores the control of such underactuated robots using constrained reinforcement learning, addressing their inherent instability, lack of arms, and limited foot actuation. 
+          We present a methodology that leverages <i>Constraints-as-Terminations</i> (<span class="dnerf">CaT</span>) and domain randomization techniques to enable sim-to-real transfer.
+          Through a series of qualitative and quantitative experiments, we evaluate our approach in terms of balance maintenance, velocity control, and responses to slip and push disturbances.
+          Additionally, we analyze autonomy through metrics like the cost of transport and ground reaction force. 
+          Our method advances robust control strategies for point-foot bipedal robots, offering insights into broader locomotion.
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="" 
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> <!-- TODO UPDATE LINKS -->
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div class="is-centered has-text-centered" style="padding-bottom:1em">
+        <h2 class="title is-3">Evaluation across performance, autonomy, and robustness</h2>
+      </div>
+      <div id="results-carousel" class="carousel results-carousel">
+        
+        <div class="item item-steve">
+          <div class="media-block">
+            <video id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/walking_backward.mp4" type="video/mp4">
+            </video>
+            <img src="./static/images/x_vel_acc.png" alt="x-Velocity Accuracy" style="width: 100%; margin-top: 0.5em; border-radius: 8px;">
+          </div>
+        </div>
+
+        <div class="item item-chair-tp">
+          <div class="media-block">
+            <video id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/side_walking.mp4" type="video/mp4">
+            </video>
+            <img src="./static/images/y_vel_acc.png" alt="y-Velocity Accuracy" style="width: 100%; margin-top: 0.5em; border-radius: 8px;">
+          </div>
+        </div>
+
+        <div class="item item-shiba">
+          <div class="media-block">
+            <video id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/walking_forward.mp4" type="video/mp4">
+            </video>
+            <img src="./static/images/cost_of_transport.png" alt="Cost of Transport" style="width: 100%; margin-top: 0.5em; border-radius: 8px;">
+          </div>
+        </div>
+
+        <div class="item item-fullbody">
+          <div class="media-block">
+            <video id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/push_recovery.mp4" type="video/mp4">
+            </video>
+            <img src="./static/images/push_recovery.png" alt="Push Recovery" style="width: 100%; margin-top: 0.5em; border-radius: 8px;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="is-centered has-text-centered" style="padding-bottom:1em">
+      <h2 class="title is-3">Additional results</h2>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-half has-text-centered">
+        <video autoplay muted loop playsinline style="width: 100%; border-radius: 8px;">
+          <source src="./static/videos/jumping.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="column is-half has-text-centered">
+        <video autoplay muted loop playsinline style="width: 100%; border-radius: 8px;">
+          <source src="./static/videos/slip_recovery.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{roux2025bolt,
+      title={Constrained Reinforcement Learning for Unstable Point-Feet Bipedal Locomotion Applied to the Bolt Robot},
+      author={Constant Roux and Elliot Chane-Sane and Ludovic de Matteïs and Thomas Flayols and Jérôme Manhes and Olivier Stasse and Philippe Souères and Nicolas Mansard},
+      booktitle={2025 IEEE-RAS 24rd International Conference on Humanoid Robots (Humanoids)}, 
+      year={2025}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <!-- <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a> --> <!-- TODO LINK -->
+      <a class="icon-link" href="https://github.com/constraints-as-terminations/constraints-as-terminations.github.io" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            We thank <a href="https://constraints-as-terminations.github.io/"><span class="dnerf">Constraints-as-Terminations</span></a> and <a href="https://nerfies.github.io/"><span class="dnerf">Nerfies</span></a> for sharing their template.
+          </p>
+          <p>
+            You are free to borrow the <a href="https://github.com/Gepetto/BoltLocomotion/tree/website">source code</a> <!-- TODO LINK -->
+            of this website, we just ask that you link back to this page in the footer, as well as to
+            <a href="https://nerfies.github.io/"><span class="dnerf">Nerfies</span></a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
