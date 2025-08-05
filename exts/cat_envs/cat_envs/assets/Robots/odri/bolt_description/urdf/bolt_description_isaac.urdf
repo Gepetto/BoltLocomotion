@@ -1,0 +1,292 @@
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="bolt_description">
+
+    <material name="red">
+      <color rgba="1.0 0.3 0.3 1.0"/>
+    </material>
+
+    <material name="black">
+        <color rgba="0.27 0.27 0.27 1.0"/>
+    </material>
+
+    <link name="base_link">
+        <visual>
+            <origin xyz="0.074676658500523032669 7.8061202980294743373e-17 -0.091125776682042608501" rpy="1.5707617824728115075 9.2679126479791196748e-16 -1.570796326794896558" />
+            <geometry>
+                <mesh filename="../meshes/base_link.stl"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <collision>
+            <origin xyz="0.074676658500523032669 7.8061202980294743373e-17 -0.091125776682042608501" rpy="1.5707617824728115075 9.2679126479791196748e-16 -1.570796326794896558" />
+            <geometry>
+                <mesh filename="../meshes/base_link.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="-0.014828960455197348969 -9.7191929109411895923e-05 -0.053005922786352598075" rpy="0 0 0"/>
+            <mass value="0.61562000000000005606" />
+            <inertia ixx="0.0016286202476804270602" ixy="3.055644468140097521e-06" ixz="-0.00032823198641565451633" iyy="0.0016968522172631965786" iyz="3.417318349797737162e-06" izz="0.0019789172154617016078" />
+        </inertial>
+    </link>
+
+    <link name="FL_SHOULDER">
+        <visual>
+            <origin xyz="-4.1633363423443370266e-17 -0.040089999999999625935 -0.077758727895800267005" rpy="-3.141592653589793116 -2.7612734008811193586e-37 3.141592653589793116" />
+            <geometry>
+                <mesh filename="../meshes/shoulder.stl"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="-4.1633363423443370266e-17 -0.040089999999999625935 -0.077758727895800267005" rpy="-3.141592653589793116 -2.7612734008811193586e-37 3.141592653589793116" />
+            <geometry>
+                <mesh filename="../meshes/shoulder.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="-0.0035290051681255061276 -0.011620113831450619782 -0.059548664382491317548" rpy="0 0 0"/>
+            <mass value="0.1694999999999999285" />
+            <inertia ixx="0.00018580527751783123928" ixy="1.078416729749079405e-05" ixz="-2.3181968325065524256e-06" iyy="0.00012146521710165176361" iyz="-2.8721983446301162479e-05" izz="9.344324543454910132e-05" />
+        </inertial>
+    </link>
+
+    <joint name="FL_HAA" type="revolute">
+        <origin xyz="0.068676658504103052505 0.065999999999999892086 -0.091125569416110191456" rpy="1.5708308711169816085 -9.2680989819289280629e-16 1.570796326794896558" />
+        <parent link="base_link" />
+        <child link="FL_SHOULDER" />
+        <axis xyz="0 0 1"/>
+        <limit lower="-0.9" upper="0.9" effort="4" velocity="1000" />
+    </joint>
+
+    <link name="FL_UPPER_LEG">
+        <visual>
+            <origin xyz="0.1999998306884568644 -7.7465883947108737928e-08 -0.025000000000000008327" rpy="-3.1415926535897926719 1.570796326794896558 0" />
+            <geometry>
+                <mesh filename="../meshes/upper_leg.stl"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <collision>
+            <origin xyz="0.1999998306884568644 -7.7465883947108737928e-08 -0.025000000000000008327" rpy="-3.1415926535897926719 1.570796326794896558 0" />
+            <geometry>
+                <mesh filename="../meshes/upper_leg.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0.11140394584638811659 1.3962039102787361246e-05 -0.019766126243362665271" rpy="0 0 0"/>
+            <mass value="0.16313999999999992396" />
+            <inertia ixx="3.3858129432313730325e-05" ixy="7.9386566865762879306e-08" ixz="4.8787161355139270751e-05" iyy="0.00058403442255464186987" iyz="-4.9263556009160675579e-09" izz="0.0005862551163876996525" />
+        </inertial>
+    </link>
+
+    <joint name="FL_HFE" type="revolute">
+        <origin xyz="0.012849999999999972555 -0.040090000000000014513 -0.077758727895800502927" rpy="1.570796326794896558 -6.9088644169504277639e-05 -1.57079632679489678" />
+        <parent link="FL_SHOULDER" />
+        <child link="FL_UPPER_LEG" />
+        <axis xyz="0 0 -1"/>
+        <limit lower="-1.7" upper="1.7" effort="4" velocity="1000" />
+    </joint>
+
+    <link name="FL_LOWER_LEG">
+        <visual>
+            <origin xyz="-0.0079999999999999932276 0.0079999999999999515943 -0.040436105401053232256" rpy="-3.1415926535897926719 -1.570796326794896558 0" />
+            <geometry>
+                <mesh filename="../meshes/lower_leg.stl"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="-0.0079999999999999932276 0.0079999999999999515943 -0.040436105401053232256" rpy="-3.1415926535897926719 -1.570796326794896558 0" />
+            <geometry>
+                <mesh filename="../meshes/lower_leg.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="-2.2470156021356660718e-08 0.069155450850043542754 -0.0079234929217393019335" rpy="0 0 0"/>
+            <mass value="0.032009999999999996789" />
+            <inertia ixx="0.00010917757906454421445" ixy="-4.3491296044265376555e-11" ixz="-1.7438608929711974483e-09" iyy="1.7040304683791862597e-06" iyz="2.388443110699719277e-06" izz="0.00010994956622442516269" />
+        </inertial>
+    </link>
+
+    <joint name="FL_KFE" type="revolute">
+        <origin xyz="0.20000000000000003886 0 -0.037349999999999994316" rpy="7.0541654201292105585e-20 -7.0569300283297746009e-17 -1.5653507382494438183" />
+        <parent link="FL_UPPER_LEG" />
+        <child link="FL_LOWER_LEG" />
+        <axis xyz="0 0 -1"/>
+        <limit lower="-3.4" upper="3.4" effort="4" velocity="1000" />
+    </joint>
+
+    <link name="FL_FOOT">
+        <visual>
+            <origin xyz="-3.4113387168896447399e-08 0.0049999883836896463762 0.19299999999999994937" rpy="4.3127764798918509027e-32 2.4290837975294779213e-19 -1.1454339128215138466e-32" />
+            <geometry>
+                <mesh filename="../meshes/foot.stl"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="-3.4113387168896447399e-08 0.0049999883836896463762 0.19299999999999994937" rpy="4.3127764798918509027e-32 2.4290837975294779213e-19 -1.1454339128215138466e-32" />
+            <geometry>
+                <mesh filename="../meshes/foot.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="-3.4113387128909338831e-08 -1.1616310354595205112e-08 -0.0095418950492479615022" rpy="0 0 0"/>
+            <mass value="0.0013400000000000000452" />
+            <inertia ixx="5.3616455124076758953e-08" ixy="6.979763424207453987e-14" ixz="-1.2125216177700869442e-25" iyy="1.1858472675445191337e-07" iyz="-1.6954431333763128173e-32" izz="8.6117246750193333163e-08" />
+        </inertial>
+    </link>
+
+    <joint name="FL_ANKLE" type="fixed" dont_collapse="true">
+        <origin xyz="-3.6670146259798475086e-10 0.1930000000000000604 -0.0089999977176316997562" rpy="-1.57079632679489678 5.4426949058772384217e-17 3.141592653589793116" />
+        <parent link="FL_LOWER_LEG" />
+        <child link="FL_FOOT" />
+        <axis xyz="0 0 0"/>
+    </joint>
+
+    <link name="FR_SHOULDER">
+        <visual>
+            <origin xyz="1.3877787807814456755e-17 0.04008999999999977859 -0.077758727895800267005" rpy="-3.141592653589793116 4.9441221455827086582e-36 3.1613248205790435468e-31" />
+            <geometry>
+                <mesh filename="../meshes/shoulder.stl"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="1.3877787807814456755e-17 0.04008999999999977859 -0.077758727895800267005" rpy="-3.141592653589793116 4.9441221455827086582e-36 3.1613248205790435468e-31" />
+            <geometry>
+                <mesh filename="../meshes/shoulder.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="-0.0036300050300058801095 0.011620270405350560661 -0.059549066402237116336" rpy="0 0 0"/>
+            <mass value="0.16950000000000006728" />
+            <inertia ixx="0.0001858041548232959193" ixy="-1.093001949320869351e-05" ixz="-2.4303823027216860682e-06" iyy="0.00012174530308651516214" iyz="2.8722254336751062217e-05" izz="9.3723792713216002421e-05" />
+        </inertial>
+    </link>
+
+    <joint name="FR_HAA" type="revolute">
+        <origin xyz="0.068676658504103066383 -0.066000000000000155764 -0.091125569416110288601" rpy="-1.5708308711169816085 1.2352179823206102211e-15 -1.570796326794896558" />
+        <parent link="base_link" />
+        <child link="FR_SHOULDER" />
+        <axis xyz="0 0 1"/>
+        <limit lower="-0.9" upper="0.9" effort="4" velocity="1000" />
+    </joint>
+
+    <link name="FR_UPPER_LEG">
+        <visual>
+            <origin xyz="0.19999983068845669787 -7.7465883796187795518e-08 -0.024999999999999841793" rpy="3.141592653589793116 1.570796326794896558 0" />
+            <geometry>
+                <mesh filename="../meshes/upper_leg.stl"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <collision>
+            <origin xyz="0.19999983068845669787 -7.7465883796187795518e-08 -0.024999999999999841793" rpy="3.141592653589793116 1.570796326794896558 0" />
+            <geometry>
+                <mesh filename="../meshes/upper_leg.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0.11140394512482039435 1.3962432282674983969e-05 -0.01976612624336267568" rpy="0 0 0"/>
+            <mass value="0.16313999999999992396" />
+            <inertia ixx="3.3858041799973306689e-05" ixy="7.9390119321343911575e-08" ixz="4.8787163087088476657e-05" iyy="0.00058403451611903410643" iyz="-4.9272699670029010495e-09" izz="0.00058625512231975126891" />
+        </inertial>
+    </link>
+
+    <joint name="FR_HFE" type="revolute">
+        <origin xyz="0.012849999999999958677 0.040089999999999972879 -0.077758727895800461294" rpy="-1.570796326794896558 -6.9088644169360146513e-05 1.5707963267948956698" />
+        <parent link="FR_SHOULDER" />
+        <child link="FR_UPPER_LEG" />
+        <axis xyz="0 0 1"/>
+        <limit lower="-1.7" upper="1.7" effort="4" velocity="1000" />
+    </joint>
+
+    <link name="FR_LOWER_LEG">
+        <visual>
+            <origin xyz="-0.0080000000000000019013 0.0079999999999999515943 -0.040436105401053190622" rpy="-3.1415926535897922278 -1.570796326794896558 0" />
+            <geometry>
+                <mesh filename="../meshes/lower_leg.stl"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="-0.0080000000000000019013 0.0079999999999999515943 -0.040436105401053190622" rpy="-3.1415926535897922278 -1.570796326794896558 0" />
+            <geometry>
+                <mesh filename="../meshes/lower_leg.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="-2.2470156021409583733e-08 0.069155450850043542754 -0.0079234929217392880557" rpy="0 0 0"/>
+            <mass value="0.032009999999999996789" />
+            <inertia ixx="0.00010917757906454421445" ixy="-4.349129604458301391e-11" ixz="-1.7438608929711775959e-09" iyy="1.7040304683791862597e-06" iyz="2.388443110699719277e-06" izz="0.00010994956622442516269" />
+        </inertial>
+    </link>
+
+    <joint name="FR_KFE" type="revolute">
+        <origin xyz="0.19999999999999998335 4.5796699765787707292e-16 -0.037349999999999994316" rpy="-3.885780586188041482e-16 2.6365425142594943788e-16 -1.5707963267948932273" />
+        <parent link="FR_UPPER_LEG" />
+        <child link="FR_LOWER_LEG" />
+        <axis xyz="0 0 1"/>
+        <limit lower="-3.4" upper="3.4" effort="4" velocity="1000" />
+    </joint>
+
+    <link name="FR_FOOT">
+        <visual>
+            <origin xyz="-3.4113387168896447399e-08 0.0049999883836896741318 0.19300000000000000488" rpy="-4.0716572413067166047e-32 -1.2993975131030958062e-21 3.8164166690459604748e-34" />
+            <geometry>
+                <mesh filename="../meshes/foot.stl"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="-3.4113387168896447399e-08 0.0049999883836896741318 0.19300000000000000488" rpy="-4.0716572413067166047e-32 -1.2993975131030958062e-21 3.8164166690459604748e-34" />
+            <geometry>
+                <mesh filename="../meshes/foot.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="-3.4113387129163091373e-08 -1.1616310326839629496e-08 -0.0095418950492479337466" rpy="0 0 0"/>
+            <mass value="0.0013400000000000000452" />
+            <inertia ixx="5.3616455124076732483e-08" ixy="6.9797634242074527248e-14" ixz="-2.6840595147255933375e-28" iyy="1.1858472675445191337e-07" iyz="9.0688999696322555146e-35" izz="8.6117246750193359632e-08" />
+        </inertial>
+    </link>
+
+    <joint name="FR_ANKLE" type="fixed" dont_collapse="true">
+        <origin xyz="-3.6670146259798475086e-10 0.19300000000000011591 -0.0089999977176316858785" rpy="-1.57079632679489678 -2.7755575615629166193e-17 3.1415926535897926719" />
+        <parent link="FR_LOWER_LEG" />
+        <child link="FR_FOOT" />
+        <axis xyz="0 0 0"/>
+    </joint>
+
+    <link name="IMU">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1e-9" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <joint name="IMU_frame" type="fixed" dont_collapse="true">
+        <origin xyz="0.00013330023636111149737 3.342117806462430174e-10 -0.0026208997677041601104" rpy="1.2352275542901557453e-15 3.4544322085087862022e-05 5.9120118937527541494e-20" />
+        <parent link="base_link" />
+        <child link="IMU" />
+        <axis xyz="0 0 0"/>
+    </joint>
+
+    <link name="MOCAP">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1e-9" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <joint name="MOCAP_frame" type="fixed" dont_collapse="true">
+        <origin xyz="-0.02151962984360775849 -0.020000000683046362943 0.016229848212570025662" rpy="1.029780786059967153e-15 3.4544322085873563008e-05 -1.8766139624542305021e-16" />
+        <parent link="base_link" />
+        <child link="MOCAP" />
+        <axis xyz="0 0 0"/>
+    </joint>
+</robot>
