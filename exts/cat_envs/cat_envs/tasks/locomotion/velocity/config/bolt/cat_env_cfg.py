@@ -6,40 +6,31 @@
 import math
 
 import isaaclab.sim as sim_utils
+import isaaclab_tasks.manager_based.locomotion.velocity.mdp as mdp
 from isaaclab.assets import ArticulationCfg, AssetBaseCfg
 from isaaclab.envs import ManagerBasedRLEnvCfg
-from isaaclab.managers import (
-    CurriculumTermCfg as CurrTerm,
-    EventTermCfg as EventTerm,
-    RewardTermCfg as RewTerm,
-    SceneEntityCfg,
-    TerminationTermCfg as DoneTerm,
-)
+from isaaclab.managers import CurriculumTermCfg as CurrTerm
+from isaaclab.managers import EventTermCfg as EventTerm
+from isaaclab.managers import RewardTermCfg as RewTerm
+from isaaclab.managers import SceneEntityCfg
+from isaaclab.managers import TerminationTermCfg as DoneTerm
 from isaaclab.scene import InteractiveSceneCfg
 from isaaclab.sensors import ContactSensorCfg
 from isaaclab.terrains import TerrainImporterCfg
 from isaaclab.utils import configclass
-from isaaclab.utils.noise import (
-    AdditiveUniformNoiseCfg as Unoise,
-    GaussianNoiseCfg,
-    NoiseModelWithAdditiveBiasCfg,
-)
+from isaaclab.utils.noise import AdditiveUniformNoiseCfg as Unoise
+from isaaclab.utils.noise import GaussianNoiseCfg, NoiseModelWithAdditiveBiasCfg
 
-import isaaclab_tasks.manager_based.locomotion.velocity.mdp as mdp
-
-from cat_envs.tasks.utils.cat.manager_constraint_cfg import ConstraintTermCfg as ConstraintTerm
 import cat_envs.tasks.utils.cat.constraints as constraints
 import cat_envs.tasks.utils.cat.curriculums as curriculums
-import cat_envs.tasks.utils.mdp.observations as observations
 import cat_envs.tasks.utils.mdp.events as events
-from cat_envs.assets.terrains.rough import ROUGH_TERRAINS_CFG
-from cat_envs.assets.markers.markers import GREEN_ARROW_X_MARKER_CFG, BLUE_ARROW_X_MARKER_CFG
+import cat_envs.tasks.utils.mdp.observations as observations
+from cat_envs.assets.markers.markers import BLUE_ARROW_X_MARKER_CFG, GREEN_ARROW_X_MARKER_CFG
 from cat_envs.assets.odri import BOLT_MINIMAL_CFG
-from cat_envs.tasks.utils.history.manager_term_cfg import (
-    ObservationGroupCfg as ObsGroup,
-    ObservationTermCfg as ObsTerm,
-)
-
+from cat_envs.assets.terrains.rough import ROUGH_TERRAINS_CFG
+from cat_envs.tasks.utils.cat.manager_constraint_cfg import ConstraintTermCfg as ConstraintTerm
+from cat_envs.tasks.utils.history.manager_term_cfg import ObservationGroupCfg as ObsGroup
+from cat_envs.tasks.utils.history.manager_term_cfg import ObservationTermCfg as ObsTerm
 
 # ========================================================
 # Global variables
@@ -74,13 +65,9 @@ class MySceneCfg(InteractiveSceneCfg):
         debug_vis=False,
     )
     # robots
-    robot: ArticulationCfg = BOLT_MINIMAL_CFG.replace(
-        prim_path="/World/envs/env_.*/Robot"
-    )
+    robot: ArticulationCfg = BOLT_MINIMAL_CFG.replace(prim_path="/World/envs/env_.*/Robot")
     # sensors
-    contact_forces = ContactSensorCfg(
-        prim_path="{ENV_REGEX_NS}/Robot/.*", history_length=3, track_air_time=True
-    )
+    contact_forces = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/.*", history_length=3, track_air_time=True)
     # lights
     sky_light = AssetBaseCfg(
         prim_path="/World/skyLight",
@@ -139,8 +126,11 @@ class ObservationsCfg:
     @configclass
     class PolicyCfg(ObsGroup):
         """Observations for policy group."""
+
         base_ang_vel = ObsTerm(
-            func=mdp.base_ang_vel, noise=Unoise(n_min=-0.2, n_max=0.2), scale=0.25,
+            func=mdp.base_ang_vel,
+            noise=Unoise(n_min=-0.2, n_max=0.2),
+            scale=0.25,
         )
         velocity_commands = ObsTerm(
             func=mdp.generated_commands,
@@ -148,29 +138,25 @@ class ObservationsCfg:
             scale=1.0,
         )
         projected_gravity = ObsTerm(
-            func=mdp.projected_gravity, 
+            func=mdp.projected_gravity,
             noise=NoiseModelWithAdditiveBiasCfg(
                 noise_cfg=GaussianNoiseCfg(mean=0.0, std=0.05, operation="add"),
                 bias_noise_cfg=Unoise(n_min=-0.05, n_max=0.05, operation="abs"),
-                ),
+            ),
             scale=1.0,
         )
         joint_pos = ObsTerm(
             func=observations.joint_pos,
-            params={
-                "names": ["FL_HAA", "FL_HFE", "FL_KFE", "FR_HAA", "FR_HFE", "FR_KFE"]
-            },
+            params={"names": ["FL_HAA", "FL_HFE", "FL_KFE", "FR_HAA", "FR_HFE", "FR_KFE"]},
             noise=NoiseModelWithAdditiveBiasCfg(
                 noise_cfg=Unoise(n_min=-0.01, n_max=0.01, operation="add"),
                 bias_noise_cfg=Unoise(n_min=-0.05, n_max=0.05, operation="abs"),
-                ),
+            ),
             scale=1.0,
         )
         joint_vel = ObsTerm(
             func=observations.joint_vel,
-            params={
-                "names": ["FL_HAA", "FL_HFE", "FL_KFE", "FR_HAA", "FR_HFE", "FR_KFE"]
-            },
+            params={"names": ["FL_HAA", "FL_HFE", "FL_KFE", "FR_HAA", "FR_HFE", "FR_KFE"]},
             noise=Unoise(n_min=-1.5, n_max=1.5),
             scale=0.05,
         )
@@ -215,7 +201,7 @@ class EventCfg:
             "scale_max": 1.2,
         },
     )
-    
+
     scale_mass = EventTerm(
         func=mdp.randomize_rigid_body_mass,
         mode="startup",
@@ -235,7 +221,7 @@ class EventCfg:
             "asset_cfg": SceneEntityCfg("robot", body_names="base_link"),
         },
     )
-    
+
     randomize_joint_parameters = EventTerm(
         func=mdp.randomize_joint_parameters,
         mode="startup",
@@ -288,12 +274,16 @@ class EventCfg:
         func=mdp.push_by_setting_velocity,
         mode="interval",
         interval_range_s=(5.0, 8.0),
-        params={"velocity_range": {"x": (-0.5, 0.5), 
-                                   "y": (-0.5, 0.5),
-                                   "z": (-0.1, 0.1),
-                                   "yaw": (-0.5, 0.5), 
-                                   "pitch": (-0.5, 0.5), 
-                                   "roll": (-0.5, 0.5)}},
+        params={
+            "velocity_range": {
+                "x": (-0.5, 0.5),
+                "y": (-0.5, 0.5),
+                "z": (-0.1, 0.1),
+                "yaw": (-0.5, 0.5),
+                "pitch": (-0.5, 0.5),
+                "roll": (-0.5, 0.5),
+            }
+        },
     )
 
 
@@ -324,68 +314,55 @@ class RewardsCfg:
 class ConstraintsCfg:
     # Safety Hard constraints
     upsidedown = ConstraintTerm(
-        func=constraints.upsidedown, 
-        max_p=1.0, 
-        params={
-            "limit": 0.0,
-            "asset_cfg": SceneEntityCfg("robot")}
+        func=constraints.upsidedown, max_p=1.0, params={"limit": 0.0, "asset_cfg": SceneEntityCfg("robot")}
     )
     contact = ConstraintTerm(
         func=constraints.contact,
         max_p=1.0,
-        params={
-            "asset_cfg": SceneEntityCfg("contact_forces", body_names=["base_link", ".*_UPPER_LEG"])},
+        params={"asset_cfg": SceneEntityCfg("contact_forces", body_names=["base_link", ".*_UPPER_LEG"])},
     )
     foot_contact_force = ConstraintTerm(
         func=constraints.foot_contact_force,
         max_p=1.0,
-        params={"limit": 50.0, 
-                "asset_cfg": SceneEntityCfg("contact_forces", body_names=".*_FOOT")},
+        params={"limit": 50.0, "asset_cfg": SceneEntityCfg("contact_forces", body_names=".*_FOOT")},
     )
 
     # Safety Soft constraints
     joint_torque = ConstraintTerm(
         func=constraints.joint_torque,
         max_p=0.25,
-        params={"limit": 4.0, 
-                "asset_cfg": SceneEntityCfg("robot", joint_names=[".*_HAA", ".*_HFE", ".*_KFE"])},
+        params={"limit": 4.0, "asset_cfg": SceneEntityCfg("robot", joint_names=[".*_HAA", ".*_HFE", ".*_KFE"])},
     )
     joint_velocity = ConstraintTerm(
         func=constraints.joint_velocity,
         max_p=0.25,
-        params={"limit": 16.0, 
-                "asset_cfg": SceneEntityCfg("robot", joint_names=[".*_HAA", ".*_HFE", ".*_KFE"])},
+        params={"limit": 16.0, "asset_cfg": SceneEntityCfg("robot", joint_names=[".*_HAA", ".*_HFE", ".*_KFE"])},
     )
     joint_acceleration = ConstraintTerm(
         func=constraints.joint_acceleration,
         max_p=0.25,
-        params={"limit": 800.0, 
-                "asset_cfg": SceneEntityCfg("robot", joint_names=[".*_HAA", ".*_HFE", ".*_KFE"])},
+        params={"limit": 800.0, "asset_cfg": SceneEntityCfg("robot", joint_names=[".*_HAA", ".*_HFE", ".*_KFE"])},
     )
     action_rate = ConstraintTerm(
         func=constraints.action_rate,
         max_p=0.25,
-        params={"limit": 90.0, 
-                "asset_cfg": SceneEntityCfg("robot", joint_names=[".*_HAA", ".*_HFE", ".*_KFE"])},
+        params={"limit": 90.0, "asset_cfg": SceneEntityCfg("robot", joint_names=[".*_HAA", ".*_HFE", ".*_KFE"])},
     )
 
     # Style constraints
     base_orientation = ConstraintTerm(
-        func=constraints.base_orientation, 
-        max_p=0.25, 
-        params={
-            "limit": 0.1,
-            "asset_cfg": SceneEntityCfg("robot")}
+        func=constraints.base_orientation, max_p=0.25, params={"limit": 0.1, "asset_cfg": SceneEntityCfg("robot")}
     )
     air_time = ConstraintTerm(
         func=constraints.air_time,
         max_p=0.25,
         params={
-            "limit": 0.25, 
+            "limit": 0.25,
             "velocity_deadzone": VELOCITY_DEADZONE,
-            "asset_cfg": SceneEntityCfg("contact_forces", body_names=".*_FOOT")},
+            "asset_cfg": SceneEntityCfg("contact_forces", body_names=".*_FOOT"),
+        },
     )
-    # switch these two constraints to change the robot's gait. 
+    # switch these two constraints to change the robot's gait.
     # The first is for walking, the second for jumping.
     one_foot_contact = ConstraintTerm(
         func=constraints.n_foot_contact,
@@ -393,7 +370,7 @@ class ConstraintsCfg:
         params={
             "number_of_desired_feet": 1,
             "min_command_value": VELOCITY_DEADZONE,
-            "asset_cfg": SceneEntityCfg("contact_forces", body_names=".*_FOOT")
+            "asset_cfg": SceneEntityCfg("contact_forces", body_names=".*_FOOT"),
         },
     )
     # mod_n_foot_contact = ConstraintTerm(
@@ -433,9 +410,7 @@ class TerminationsCfg:
     base_contact = DoneTerm(
         func=mdp.illegal_contact,
         params={
-            "sensor_cfg": SceneEntityCfg(
-                "contact_forces", body_names=["base_link", ".*_UPPER_LEG"]
-            ),
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["base_link", ".*_UPPER_LEG"]),
             "threshold": 1.0,
         },
     )
@@ -487,11 +462,9 @@ class CurriculumCfg:
     )
     air_time = CurrTerm(
         func=curriculums.modify_constraint_p,
-        params={"term_name": "air_time", 
-                "num_steps": 24 * MAX_CURRICULUM_ITERATIONS, 
-                "init_max_p": 0.25},
+        params={"term_name": "air_time", "num_steps": 24 * MAX_CURRICULUM_ITERATIONS, "init_max_p": 0.25},
     )
-    # switch these two curriculums to change the robot's gait. 
+    # switch these two curriculums to change the robot's gait.
     # The first is for walking, the second for jumping.
     one_foot_contact = CurrTerm(
         func=curriculums.modify_constraint_p,
