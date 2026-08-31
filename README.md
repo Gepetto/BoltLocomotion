@@ -34,7 +34,7 @@ If you find this project useful for your work please cite:
 @inproceedings{roux2025bolt,
       title={Constrained Reinforcement Learning for Unstable Point-Feet Bipedal Locomotion Applied to the Bolt Robot},
       author={Constant Roux and Elliot Chane-Sane and Ludovic de Matteïs and Thomas Flayols and Jérôme Manhes and Olivier Stasse and Philippe Souères and Nicolas Mansard},
-      booktitle={2025 IEEE-RAS 24rd International Conference on Humanoid Robots (Humanoids)}, 
+      booktitle={2025 IEEE-RAS 24rd International Conference on Humanoid Robots (Humanoids)},
       year={2025}
 }
 ```

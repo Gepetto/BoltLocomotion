@@ -5,7 +5,9 @@
 
 from dataclasses import MISSING
 from typing import Literal
+
 from isaaclab.utils import configclass
+
 from cat_envs.tasks.utils.cleanrl.rl_cfg import CleanRlPpoActorCriticCfg
 
 
