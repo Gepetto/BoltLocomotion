@@ -1,8 +1,8 @@
 """Installation script for the 'cat_envs' python package."""
 
 import os
-import tomli  # Use tomli instead of toml
 
+import tomli  # Use tomli instead of toml
 from setuptools import setup
 
 EXTENSION_PATH = os.path.dirname(os.path.realpath(__file__))

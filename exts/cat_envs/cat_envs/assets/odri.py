@@ -14,7 +14,6 @@ Reference: Anonymous authors
 """
 
 import isaaclab.sim as sim_utils
-
 from isaaclab.actuators import DelayedPDActuatorCfg
 from isaaclab.assets.articulation import ArticulationCfg
 
@@ -57,7 +56,7 @@ BOLT_CFG = ArticulationCfg(
     soft_joint_pos_limit_factor=1.0,
     actuators={
         "legs": DelayedPDActuatorCfg(
-            joint_names_expr=["FL_HAA","FL_HFE","FL_KFE", "FR_HAA","FR_HFE","FR_KFE"],
+            joint_names_expr=["FL_HAA", "FL_HFE", "FL_KFE", "FR_HAA", "FR_HFE", "FR_KFE"],
             armature=0.00036207,
             effort_limit=100,
             velocity_limit=100.0,
