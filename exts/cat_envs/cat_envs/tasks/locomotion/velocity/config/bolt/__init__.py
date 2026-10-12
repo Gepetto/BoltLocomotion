@@ -5,10 +5,10 @@
 
 import gymnasium as gym
 
-from . import agents
 # from cat_envs.tasks.utils.cat.cat_env import CaTEnv
 from cat_envs.tasks.utils.cat.history_cat_env import CaTEnv
 
+from . import agents
 
 ##
 # Register Gym environments.
