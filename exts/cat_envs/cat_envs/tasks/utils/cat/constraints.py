@@ -107,10 +107,7 @@ def air_time(
     last_air_time = contact_sensor.data.last_air_time[:, asset_cfg.body_ids]
     # Like in CaT
     command_more_than_limit = (
-        (
-            torch.norm(env.command_manager.get_command("base_velocity")[:, :3], dim=1)
-            > velocity_deadzone
-        )
+        (torch.norm(env.command_manager.get_command("base_velocity")[:, :3], dim=1) > velocity_deadzone)
         .float()
         .unsqueeze(1)
     )
@@ -129,9 +126,7 @@ def n_foot_contact(
     contact_cstr = torch.abs(
         (
             torch.max(
-                torch.norm(
-                    net_contact_forces[:, :, asset_cfg.body_ids], dim=-1
-                ),
+                torch.norm(net_contact_forces[:, :, asset_cfg.body_ids], dim=-1),
                 dim=1,
             )[0]
             > 1.0
@@ -139,8 +134,7 @@ def n_foot_contact(
         - number_of_desired_feet
     )
     command_more_than_limit = (
-        torch.norm(env.command_manager.get_command("base_velocity")[:, :3], dim=1)
-        > min_command_value
+        torch.norm(env.command_manager.get_command("base_velocity")[:, :3], dim=1) > min_command_value
     ).float()
     return contact_cstr * command_more_than_limit
 
@@ -154,21 +148,21 @@ def mod_n_foot_contact(
 ) -> torch.Tensor:
     contact_sensor = env.scene[asset_cfg.name]
     net_contact_forces = contact_sensor.data.net_forces_w_history
-    contact_cstr = torch.remainder(torch.abs(
-        (
-            torch.max(
-                torch.norm(
-                    net_contact_forces[:, :, asset_cfg.body_ids], dim=-1
-                ),
-                dim=1,
-            )[0]
-            > 1.0
-        ).sum(1)
-        - number_of_desired_feet
-    ), number_of_desired_feet)
+    contact_cstr = torch.remainder(
+        torch.abs(
+            (
+                torch.max(
+                    torch.norm(net_contact_forces[:, :, asset_cfg.body_ids], dim=-1),
+                    dim=1,
+                )[0]
+                > 1.0
+            ).sum(1)
+            - number_of_desired_feet
+        ),
+        number_of_desired_feet,
+    )
     command_more_than_limit = (
-        torch.norm(env.command_manager.get_command("base_velocity")[:, :3], dim=1)
-        > min_command_value
+        torch.norm(env.command_manager.get_command("base_velocity")[:, :3], dim=1) > min_command_value
     ).float()
     return contact_cstr * command_more_than_limit
 
@@ -180,10 +174,7 @@ def joint_range(
 ) -> torch.Tensor:
     robot = env.scene[asset_cfg.name]
     data = env.scene[asset_cfg.name].data
-    return (
-        torch.abs(data.joint_pos[:, asset_cfg.joint_ids] - data.default_joint_pos[:, asset_cfg.joint_ids])
-        - limit
-    )
+    return torch.abs(data.joint_pos[:, asset_cfg.joint_ids] - data.default_joint_pos[:, asset_cfg.joint_ids]) - limit
 
 
 def action_rate(
@@ -195,8 +186,7 @@ def action_rate(
     data = env.scene[asset_cfg.name].data
     return (
         torch.abs(
-            env.action_manager._action[:, asset_cfg.joint_ids]
-            - env.action_manager._prev_action[:, asset_cfg.joint_ids]
+            env.action_manager._action[:, asset_cfg.joint_ids] - env.action_manager._prev_action[:, asset_cfg.joint_ids]
         )
         / env.step_dt
     ) - limit
@@ -209,7 +199,4 @@ def foot_contact_force(
 ) -> torch.Tensor:
     contact_sensor = env.scene[asset_cfg.name]
     net_contact_forces = contact_sensor.data.net_forces_w_history
-    return (
-        torch.max(torch.norm(net_contact_forces[:, :, asset_cfg.body_ids], dim=-1), dim=1)[0]
-        - limit
-    )
+    return torch.max(torch.norm(net_contact_forces[:, :, asset_cfg.body_ids], dim=-1), dim=1)[0] - limit

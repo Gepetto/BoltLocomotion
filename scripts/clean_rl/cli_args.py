@@ -9,27 +9,21 @@ import argparse
 
 
 def add_clean_rl_args(parser: argparse.ArgumentParser):
-    arg_group = parser.add_argument_group(
-        "clean_rl", description="Arguments for CleanRL agent."
-    )
+    arg_group = parser.add_argument_group("clean_rl", description="Arguments for CleanRL agent.")
     arg_group.add_argument(
         "--experiment_name",
         type=str,
         default=None,
         help="Name of the experiment folder where logs will be stored.",
     )
-    arg_group.add_argument(
-        "--resume", type=bool, default=None, help="Whether to resume from a checkpoint."
-    )
+    arg_group.add_argument("--resume", type=bool, default=None, help="Whether to resume from a checkpoint.")
     arg_group.add_argument(
         "--load_run",
         type=str,
         default=None,
         help="Name of the run folder to resume from.",
     )
-    arg_group.add_argument(
-        "--checkpoint", type=str, default=None, help="Checkpoint file to resume from."
-    )
+    arg_group.add_argument("--checkpoint", type=str, default=None, help="Checkpoint file to resume from.")
     arg_group.add_argument(
         "--logger",
         type=str,
