@@ -19,7 +19,7 @@ export material Shingles_01(*)
 ]]
  = ::OmniPBR::OmniPBR(
     diffuse_color_constant: color(1.f, 1.f, 1.f),
-    diffuse_texture: texture_2d("./Shingles_01/Shingles_01_BaseColor.png", ::tex::gamma_srgb),   
+    diffuse_texture: texture_2d("./Shingles_01/Shingles_01_BaseColor.png", ::tex::gamma_srgb),
     albedo_desaturation: 0.f,
     albedo_add: 0.f,
     albedo_brightness: 1.f,
@@ -32,7 +32,7 @@ export material Shingles_01(*)
     metallic_texture: texture_2d(),
     specular_level: 0.5f,
     enable_ORM_texture: true,
-    ORM_texture: texture_2d("./Shingles_01/Shingles_01_ORM.png", ::tex::gamma_linear),     
+    ORM_texture: texture_2d("./Shingles_01/Shingles_01_ORM.png", ::tex::gamma_linear),
     ao_to_diffuse: 0.f,
     ao_texture: texture_2d(),
     enable_emission: false,
